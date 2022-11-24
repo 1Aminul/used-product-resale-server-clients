@@ -5,39 +5,31 @@
             {
                 "name": "Honda Civic 2009",
                 "location": "Mogbazar, Dhaka",
+                "date": "Nov 23, 2022",
                 "mobile": "013444422",
                 "image1": "https://i.ibb.co/2ggjhQz/image.jpg",
                 "description": {
                     "Brand": "Honda",
                     "Model": "Civic",
-                    "Manufacture": 2009,
-                    "Registration": 2010,
                     "Condition": "Used",
-                    "Transmission": "Automatic",
-                    "Body": "Saloon",
-                    "Fuel": "Octane, LPG",
-                    "Engine": " 1,500 cc",
-                    "Kilometers": "75,000 km",
-                    "price": "6,20,000"
+                    "used" : "3 years",
+                    "price" : "14,34,000",
+                    "resaleprice": "6,20,000"
                 }
             },
             {
                 "name": "Honda Civic 2014",
                 "location": "Public College, NarayanGong",
+                "date": "Nov 23, 2022",
                 "mobile": "015442243",
                 "image1": "https://i.ibb.co/qDjHbnY/Honda-Pilot.jpg",
                 "description": {
                     "Brand": "Honda",
                     "Model": "Vezel",
-                    "Manufacture": 2014,
-                    "Registration": 2014,
                     "Condition": "Used",
-                    "Transmission": "Automatic",
-                    "Body": "Saloon",
-                    "Fuel": "Octane",
-                    "Engine": " 1,500 cc",
-                    "Kilometers": "70,000 km",
-                    "price": "5,70,000"
+                    "used" : "5 years",
+                    "price" : "12,34,000",
+                    "resaleprice": "4,20,000"
                 }
             }
         ]
@@ -48,39 +40,31 @@
             {
                 "name": "Toyota Allion G with sensor 2013",
                 "location": "Malibag, Dhaka",
+                "date": "Nov 23, 2022",
                 "mobile": "013444422",
                 "image1": "https://i.ibb.co/2ggjhQz/image.jpghttps://i.ibb.co/RhzkY98/images-2.jpg",
                 "description": {
                     "Brand": "Toyota",
                     "Model": "Allion",
-                    "Manufacture": 2013,
-                    "Registration": 2019,
                     "Condition": "Used",
-                    "Transmission": "Automatic",
-                    "Body": "Saloon",
-                    "Fuel": "Octane",
-                    "Engine": " 1,500 cc",
-                    "Kilometers": "38,000 km",
-                    "price": "2,380,000"
+                    "used" : "2.7 years",
+                    "price" : "28,34,000",
+                    "resaleprice": "16,20,000"
                 }
             },
             {
                 "name": "Toyota Esquire GI PREMIUM 2018",
                 "location": "Mirpur 2, Dhaka",
+                "date": "Nov 23, 2022",
                 "mobile": "015442243",
                 "image1": "https://i.ibb.co/NygwPLY/download-2.jpghttps://i.ibb.co/5FYKJVy/images-3.jpg",
                 "description": {
                     "Brand": "Toyota",
                     "Model": "Esquire",
-                    "Manufacture": 2014,
-                    "Registration": 2014,
                     "Condition": "Used",
-                    "Transmission": "Automatic",
-                    "Body": "Saloon",
-                    "Fuel": "Octane",
-                    "Engine": " 1,500 cc",
-                    "Kilometers": "70,000 km",
-                    "price": "3,695,000"
+                    "used" : "4 years",
+                    "price" : "30,34,000",
+                    "resaleprice": "18,20,000"
                 }
             }
         ]
@@ -91,39 +75,31 @@
             {
                 "name": "Mitsubishi Pajero V73 Sunroof 2003",
                 "location": "Serial 11 Mirpur BRTA ",
+                "date": "Nov 23, 2022",
                 "mobile": "0134678422",
                 "image1": "https://i.ibb.co/NygwPLY/download-2.jpg",
                 "description": {
                     "Brand": "Mitsubishi",
                     "Model": "Pajero",
-                    "Manufacture": 2003,
-                    "Registration": 2010,
                     "Condition": "Used",
-                    "Transmission": "Automatic",
-                    "Body": "Saloon",
-                    "Fuel": "Octane, LPG",
-                    "Engine": " 3,500 cc",
-                    "Kilometers": "69,772 km",
-                    "price": "2,050,000"
+                    "used" : "3 years",
+                    "price" : "37,34,000",
+                    "resaleprice": "20,20,000"
                 }
             },
             {
                 "name": "Mitsubishi Pajero v6 1997",
                 "location": "PSerial 11 Mirpur BRTA",
+                "date": "Nov 23, 2022",
                 "mobile": "015442243",
                 "image1": "https://i.ibb.co/xfq6SK3/images-4.jpg",
                 "description": {
                     "Brand": "Mitsubishi",
                     "Model": "Pajero",
-                    "Manufacture": 1997,
-                    "Registration": 1998,
                     "Condition": "8 month Used",
-                    "Transmission": "Automatic",
-                    "Body": "SUV / 4x4",
-                    "Fuel": "Octane",
-                    "Engine": "3,500 cc",
-                    "Kilometers": "98,000 km",
-                    "price": "35,70,000"
+                    "used" : "2 years",
+                    "price" : "35,34,000",
+                    "resaleprice": "25,20,000"
                 }
             }
         ]
