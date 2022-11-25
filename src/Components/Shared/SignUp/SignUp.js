@@ -16,8 +16,23 @@ const SignUP = () => {
             ProfileUpdate(data.name)
             .then(()=>{
                 toast.success('Profile is updated')
+                users(data.name, data.email, data.option)
             }).catch(err=> console.error(err))
         }).catch(err=> console.error(err))
+    }
+
+    const users = (name, email, option)=>{
+        const user = {name, email, option}
+        fetch(`http://localhost:5000/users`,{
+            method: "POST",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        }).then(res=> res.json())
+        .then(data=> {
+            console.log(data);
+        })
     }
     return (
         <div className='flex justify-center items-center my-32'>

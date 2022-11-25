@@ -1,11 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../Context/AuthProvider';
 
-const BookingModal = ({category, setBooking}) => {
+const BookingModal = ({items, booking, setBooking}) => {
+    
     const {user}= useContext(AuthContext)
-    const image = category.image1
-    console.log(image);
+    let booked = {};
+    if(booking){
+        booked = items.find(item=> item.id === booking)
+       
+    }
     const bookingModalForm = (e)=>{
         e.preventDefault();
         const form = e.target;
@@ -17,7 +21,13 @@ const BookingModal = ({category, setBooking}) => {
         const location = form.location.value;
 
         const booking = {
-            name, email, itemName, price, phone, location, image
+            name, 
+            email, 
+            itemName, 
+            price, 
+            phone, 
+            location,
+            image: booked.image1,
         }
         console.log(booking);
         fetch("http://localhost:5000/bookings",{
@@ -53,8 +63,8 @@ const BookingModal = ({category, setBooking}) => {
                         
                         <input  name='name' defaultValue={user?.displayName} disabled  type='text'  className='input input-bordered w-full mt-2 text-dark' /><br/>
                         <input name='email' defaultValue={user?.email} disabled type='email' className='input input-bordered w-full mt-2 text-dark' /><br/>
-                        <input  name='item' defaultValue={category?.name} disabled type='text'  className='input input-bordered w-full mt-2 text-dark' /><br/>
-                        <input name='price' defaultValue={category?.description.resaleprice} disabled type='text'  className='input input-bordered w-full mt-2 text-dark' /><br/>
+                        <input  name='item' defaultValue={booked.name} disabled type='text'  className='input input-bordered w-full mt-2 text-dark' /><br/>
+                        <input name='price' defaultValue={booked.description.resaleprice} disabled type='text'  className='input input-bordered w-full mt-2 text-dark' /><br/>
                         <input name='phone' type='text'  className='input input-bordered w-full mt-2 text-dark' placeholder='Phone Number' /><br/>
                         <input name='location' type='text'  className='input input-bordered w-full mt-2 text-dark' placeholder='Location' /><br/>
                         <input type="submit" value='Submit' className='w-full mt-2 text-base-100 text-xl bg-primary rounded py-3' />

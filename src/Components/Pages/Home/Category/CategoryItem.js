@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import { useLoaderData } from 'react-router-dom'
 import BookingModal from '../../../Shared/BookingModal/BookingModal';
 const CategoryItem = () => {
-    const [booking, setBooking] = useState(null)
+    const [booking, setBooking] = useState()
     const data = useLoaderData()
     const { item } = data
-    
     return (
         <div className='w-4/5 mx-auto'>
             <div className='grid sm:grid-cols-1 lg:grid-cols-2 gap-3 my-20'>
                 {
                     item.map(category =>
-                        <div className="card w-3/4 bg-base-100 shadow-xl">
+                        <div key={category.id} className="card w-3/4 bg-base-100 shadow-xl">
                             <figure><img src={category.image1} className='w-full' alt="" /></figure>
                             <div className="card-body">
                                 <h2 className="card-title">{category.name}</h2>
@@ -33,12 +32,13 @@ const CategoryItem = () => {
                                         <p>Posted Date: {category.date}</p>
                                         <p>Location: {category.location}</p>
                                     </div>
-                                    <label htmlFor="used-product-modal" onClick={()=>setBooking(category)} className="btn btn-primary text-base-100">Book Now</label>
+                                    <label htmlFor="used-product-modal" onClick={()=>setBooking(category.id)} className="btn btn-primary text-base-100">Book Now</label>
                                 </div>
                             </div>
                             {
-                                booking && <BookingModal 
-                                category= {category}
+                                booking && <BookingModal
+                                booking = {booking} 
+                                items= {item}
                                 setBooking = {setBooking}
                                 ></BookingModal>
                             }
