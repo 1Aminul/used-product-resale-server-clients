@@ -17,7 +17,7 @@ const AllSallers = () => {
     
     
     return (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto ml-4">
             <table className="table w-full">
 
                 <thead>
@@ -26,6 +26,7 @@ const AllSallers = () => {
                         <th>Name</th>
                         <th>Email</th>
                         <th>Option</th>
+                        <th>Verification</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,6 +37,11 @@ const AllSallers = () => {
                             <td>{userinfo.name}</td>
                             <td>{userinfo.email}</td>
                             <td>{userinfo.option}</td>
+                            <td>
+                                {
+                                    userinfo?.verification ? <button className='btn btn-success'>Verified</button> : <button className='btn btn-success'>Unverified</button>
+                                }
+                            </td>
                         </tr>  
                             )
                     }
