@@ -11,33 +11,58 @@ const MyBookings = () => {
         }
     })
     return (
-        <div className="overflow-x-auto ml-12">
-            <table className="table w-full">
+        
+           
+            <div className="overflow-x-auto w-full ml-4">
+                <table className="table w-full">
 
-                <thead>
-                    <tr>
-                        <th>SL</th>
-                        <th>Name</th>
-                        <th>Item</th>
-                        <th>Phone</th>
-                        <th>Location</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        bookings.map((book,i) =>
-                        <tr className="hover">
-                            <th>{i+1}</th>
-                            <td>{book.name}</td>
-                            <td>{book.itemName}</td>
-                            <td>{book.phone}</td>
-                            <td>{book.location}</td>
-                        </tr>)
-                    }
-                </tbody>
-            </table>
-        </div>
+                    <thead>
+                        <tr>
+                            <th>
+                               SL
+                            </th>
+                            <th>Name</th>
+                            <th>Item</th>
+                            <th>Price</th>
+                            <th>Pay</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            bookings.map((book, i)=>
+                            <tr>
+                            <th>
+                                {i+1}
+                            </th>
+                            <td>
+                                <div className="flex items-center space-x-3">
+                                    <div className="avatar">
+                                        <div className="mask mask-squircle w-16 h-16">
+                                            <img src={book.image} alt="Avatar Tailwind CSS Component" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="font-bold">{book.name}</div>
+                                        <div className="text-sm opacity-50">{book.email}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                               {book.itemName}
+                                
+                            </td>
+                            <td>Price</td>
+                            <th>
+                                <button className="btn btn-primary">Pay</button>
+                            </th>
+                        </tr>
+                            )
+                        }
+                      
+                    </tbody>
+                </table>
+            </div>
+       
     );
 };
 
