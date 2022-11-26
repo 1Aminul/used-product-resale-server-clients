@@ -22,9 +22,8 @@ const MyProducts = () => {
                         <th>Location</th>
                         <th>Mobile No</th>
                         <th>Price</th>
-                        <th>Year of Purchase</th>
-                        <th>Condition</th>
-                        <th>Description</th>
+                        
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,9 +35,8 @@ const MyProducts = () => {
                             <td>{product.location}</td>
                             <td>{product.phone}</td>
                             <td>{product.price}</td>
-                            <td>{product.year}</td>
-                            <td>{product.condition}</td>
-                            <td>{product.description}</td>
+    
+                            <td><button className='btn btn-error text-white'>Delete</button></td>
                         </tr>
                         )
                     }

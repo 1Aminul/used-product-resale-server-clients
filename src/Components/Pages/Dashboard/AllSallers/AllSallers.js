@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useQuery } from '@tanstack/react-query'
 import useAdmin from '../../../hooks/useAdmin';
 import { AuthContext } from '../../../Context/AuthProvider';
-
+import {FaCheckCircle} from 'react-icons/fa'
 
 
 const AllSallers = () => {
@@ -18,9 +18,9 @@ const AllSallers = () => {
         }
     })
 
-    const usersinfo = users.filter(user=> user.option === 'Seller')
+    const usersinfo = users.filter(user => user.option === 'Seller')
 
-    
+
     const handlerDeleteSaller = id => {
         console.log(id);
         fetch(`http://localhost:5000/users/${id}`, {
@@ -28,7 +28,22 @@ const AllSallers = () => {
         }).then(res => res.json())
             .then(data => {
                 if (data.deletedCount > 0) {
-                    
+
+                    refetch()
+                }
+            })
+    }
+
+    const handlerVerifySaller = id => {
+        fetch(`http://localhost:5000/users/${id}`, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json'
+            },    
+        }).then(res => res.json())
+            .then(data => {
+                if (data.modifiedCount > 0) {
+
                     refetch()
                 }
             })
@@ -50,42 +65,47 @@ const AllSallers = () => {
                 </thead>
                 <tbody>
                     {
-                        usersinfo.map((userinfo, i)=>
-                        <tr key={userinfo._id} className="hover">
-                            <th>{i+1}</th>
-                            <td>{userinfo.name}</td>
-                            <td>{userinfo.email}</td>
-                            <td>{userinfo.option}</td>
-                            <td>
-                                {
-                                   user && isAdmin && <button className='btn btn-success text-base-100'>Verify</button> 
-                                }
-                            </td>
-                            <td>
-                                {
-                                    user && isAdmin && <label onClick={()=> setSallerDelete(userinfo)} htmlFor='delete-modal' className='btn btn-error text-base-100'>Delete</label> 
-                                }
-                            </td>
-                        </tr>  
-                            )
+                        usersinfo.map((userinfo, i) =>
+                            <tr key={userinfo._id} className="hover">
+                                <th>{i + 1}</th>
+                                <td>{userinfo.name}</td>
+                                <td>{userinfo.email}</td>
+                                <td>{userinfo.option}</td>
+                                <td>
+                                    {
+                                        user && isAdmin &&
+                                        <>
+                                            {
+                                                userinfo?.verification === "verified" ? <p><FaCheckCircle className='text-success text-3xl'/></p> : <button onClick={()=>handlerVerifySaller(userinfo._id) } className='btn btn-success text-base-100'>Verify</button>
+                                            }
+                                        </>
+                                    }
+                                </td>
+                                <td>
+                                    {
+                                        user && isAdmin && <label onClick={() => setSallerDelete(userinfo)} htmlFor='delete-modal' className='btn btn-error text-base-100'>Delete</label>
+                                    }
+                                </td>
+                            </tr>
+                        )
                     }
                 </tbody>
             </table>
             {
-                sallerDelete && 
-                    <div>
-                        <input type="checkbox" id="delete-modal" className="modal-toggle" />
-                        <div className="modal">
-                            <div className="modal-box">
-                                <h3 className="font-extrabold text-lg">Are you sure to delete {sallerDelete.name}?</h3>
-                                
-                                <div className="modal-action">
-                                    <label htmlFor="delete-modal" onClick={()=> handlerDeleteSaller(sallerDelete._id)} className='btn btn-error text-base-100'>Delete</label>
-                                    <label htmlFor="delete-modal" className="btn btn-outline">Cancel</label>
-                                </div>
+                sallerDelete &&
+                <div>
+                    <input type="checkbox" id="delete-modal" className="modal-toggle" />
+                    <div className="modal">
+                        <div className="modal-box">
+                            <h3 className="font-extrabold text-lg">Are you sure to delete {sallerDelete.name}?</h3>
+
+                            <div className="modal-action">
+                                <label htmlFor="delete-modal" onClick={() => handlerDeleteSaller(sallerDelete._id)} className='btn btn-error text-base-100'>Delete</label>
+                                <label htmlFor="delete-modal" className="btn btn-outline">Cancel</label>
                             </div>
                         </div>
                     </div>
+                </div>
             }
         </div>
     );

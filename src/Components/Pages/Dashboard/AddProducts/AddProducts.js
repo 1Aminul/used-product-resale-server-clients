@@ -1,8 +1,10 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import {toast} from 'react-hot-toast'
+import {useNavigate} from 'react-router-dom'
 const AddProducts = () => {
     const { register, handleSubmit } = useForm();
+    const navigate = useNavigate()
 
     const handlerAddProduct = data=>{
         const product = {
@@ -26,6 +28,7 @@ const AddProducts = () => {
             console.log(data);
             if(data.acknowledged){
                 toast.success('Product added successfully')
+                navigate('/dashboard/myproducts')
             }
         })
     }
