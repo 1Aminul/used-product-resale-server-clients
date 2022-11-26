@@ -11,6 +11,7 @@ import CategoryItem from "./Pages/Home/Category/CategoryItem";
 import Home from "./Pages/Home/Home/Home";
 import AdminRoute from "./PrivateRoute/AdminRoute/AdminRoute";
 import PrivateRoutes from "./PrivateRoute/PrivateRoute/PrivateRoutes";
+import SallerRoute from "./PrivateRoute/SallerRoute/SallerRoute";
 import Login from "./Shared/Login/Login";
 import SignUP from "./Shared/SignUp/SignUp";
 
@@ -51,10 +52,10 @@ export const router = createBrowserRouter([
                 path: '/dashboard/allbuyers', element: <AdminRoute><AllBuyers></AllBuyers></AdminRoute>
             },
             {
-                path: '/dashboard/addproducts', element: <AddProducts></AddProducts>
+                path: '/dashboard/addproducts', element: <SallerRoute><AddProducts></AddProducts></SallerRoute>
             },
             {
-                path: '/dashboard/myproducts', element: <MyProducts></MyProducts>
+                path: '/dashboard/myproducts', element: <SallerRoute> <MyProducts></MyProducts></SallerRoute>
             },
         ]
     }
