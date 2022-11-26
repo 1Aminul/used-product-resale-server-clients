@@ -9,6 +9,8 @@ import MyBookings from "./Pages/Dashboard/MyBookings/MyBookings";
 import MyProducts from "./Pages/Dashboard/MyProducts/MyProducts";
 import CategoryItem from "./Pages/Home/Category/CategoryItem";
 import Home from "./Pages/Home/Home/Home";
+import AdminRoute from "./PrivateRoute/AdminRoute/AdminRoute";
+import PrivateRoutes from "./PrivateRoute/PrivateRoute/PrivateRoutes";
 import Login from "./Shared/Login/Login";
 import SignUP from "./Shared/SignUp/SignUp";
 
@@ -38,15 +40,15 @@ export const router = createBrowserRouter([
         },
     ]},
     {
-        path: '/dashboard', element: <Dashboard></Dashboard>, children: [
+        path: '/dashboard', element: <PrivateRoutes><Dashboard></Dashboard></PrivateRoutes>, children: [
             {
                 path: '/dashboard', element: <MyBookings></MyBookings>
             },
             {
-                path: '/dashboard/allsallers', element: <AllSallers></AllSallers>
+                path: '/dashboard/allsallers', element: <AdminRoute><AllSallers></AllSallers></AdminRoute>
             },
             {
-                path: '/dashboard/allbuyers', element: <AllBuyers></AllBuyers>
+                path: '/dashboard/allbuyers', element: <AdminRoute><AllBuyers></AllBuyers></AdminRoute>
             },
             {
                 path: '/dashboard/addproducts', element: <AddProducts></AddProducts>
