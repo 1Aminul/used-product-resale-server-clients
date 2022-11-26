@@ -86,7 +86,7 @@ const AddProducts = () => {
                         <label className="label">
                             <span className="label-text">Description</span>
                         </label>
-                        <input {...register("description")} type='text' className='input input-bordered w-full h-20' />
+                        <textarea {...register("description")} className="textarea textarea-bordered w-full h-24" placeholder="Bio"></textarea>
                     </div>
 
                     <input type="submit" value='Submit' className='w-full bg-accent rounded py-3 mt-6 text-white' />
