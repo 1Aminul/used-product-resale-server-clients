@@ -1,17 +1,32 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import { useQuery } from '@tanstack/react-query'
 import {toast} from 'react-hot-toast'
+import { AuthContext } from '../../../Context/AuthProvider';
+
 
 const MyProducts = () => {
+    const {user} = useContext(AuthContext)
     const [productDelete, setProductDelete] = useState(null)
     const { data: products = [], refetch } = useQuery({
         queryKey: ['products'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/products`)
+            const res = await fetch(`http://localhost:5000/products/${user?.email}`)
             const data = await res.json()
             return data;
         }
     })
+
+    const { data: users = [] } = useQuery({
+        queryKey: ['users'],
+        queryFn: async () => {
+            const res = await fetch(`http://localhost:5000/users`)
+            const data = await res.json()
+            return data;
+        }
+    })
+
+    const User = users.find(emailUser => emailUser.email === user?.email)
+    console.log(User);
 
     const handlerDeleteProduct = id => {
         console.log(id);
@@ -26,15 +41,16 @@ const MyProducts = () => {
     }
 
 
-
     const handlerAdvertise = product =>{
-        // console.log(product);
+        console.log(product._id);
+
         const  advertiseItem = {
                 productName: product.productName,
                 price: product.price,
+                name: User.name,
+                email: User.email,
                 year: product.year,
                 location: product.location,
-                description: product.description,
                 phone: product.phone,
                 condition: product.condition,
                 image: product.image,
@@ -49,8 +65,18 @@ const MyProducts = () => {
         }).then(res => res.json())
             .then(data => {
                 if (data.acknowledged) {
-                    refetch()
-                    toast.success('please check your advertise item')
+                   
+                    fetch(`http://localhost:5000/products/${product._id}`,{
+                        method: "PUT",
+                        headers: {
+                            "content-type": "application/json"
+                        }
+                    }).then(res=> res.json())
+                    .then(data=> {
+                        refetch()
+                        toast.success('please check your advertise item')
+                        console.log(data);
+                    })
                 }
             })
     }
@@ -80,7 +106,14 @@ const MyProducts = () => {
                             <td>{product.location}</td>
                             <td>{product.phone}</td>
                             <td>{product.price}</td>
-                            <td><button onClick={()=>handlerAdvertise(product)} className='btn btn-info text-base-100'>Advertise</button></td>
+                            <td>
+                                {
+                                    product.advertise === 'advertised' ? 
+                                    <button className='btn' disabled>Advertise</button>
+                                    :
+                                    <button onClick={()=>handlerAdvertise(product)} className='btn btn-info text-base-100'>Advertise</button>
+                                }
+                            </td>
                             <td>
                                 <label htmlFor='delete-modal' onClick={()=> setProductDelete(product)} className='btn btn-error text-white'>Delete</label>
                             </td>

@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useContext } from 'react';
 import { AuthContext } from '../../../Context/AuthProvider';
 import toast from 'react-hot-toast';
+import { FaCheckCircle } from 'react-icons/fa'
+
 const AdvertiseItem = () => {
     const { user } = useContext(AuthContext)
     const { data: products = [] } = useQuery({
@@ -20,10 +22,11 @@ const AdvertiseItem = () => {
             return data;
         }
     })
+   
 
+    
 
     const handlerBooked = (advertise) => {
-        console.log(advertise);
 
         const booking = {
             name: user?.displayName,
@@ -58,23 +61,32 @@ const AdvertiseItem = () => {
                 products.length > 0 &&
                 <>
                     <h2 className="text-3xl font-bold mb-5 text-center">Advertise Item</h2>
-                    <div className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-36'>
+                    <div className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
                         {
                             advertiseitem.map(advertise =>
-                                <div className="card w-96 bg-base-100 shadow-2xl border-spacing-2 border-primary ">
+                                <div className="card w-96 bg-neutral shadow-2xl ">
                                     <figure><img src={advertise.image} className='w-full' alt="" /></figure>
                                     <div className="card-body">
-                                        <h2 className="card-title">{advertise.productName}</h2>
-                                        <p className='text-success font-bold'>TK {advertise.price}</p>
+                                        <div className='flex justify-between'>
+                                            <h2 className="card-title text-accent">{advertise.productName}</h2>
+                                            <h2 className='text-warning font-bold'>$ {advertise.price}</h2>
+                                        </div>
                                         <hr />
                                         <div>
-                                            <p className='text-neutral'>Conditon: {advertise.condition}</p>
-                                            <p className='text-neutral'>Phone: {advertise.phone}</p>
-                                            <p className='text-neutral'>Year of Purchase: {advertise.year}</p>
-                                            <p className='text-neutral'>Description: {advertise.description}</p>
+                                            <p className='text-success'>Conditon: {advertise.condition}</p>
+                                            <p className='text-success'>Phone: {advertise.phone}</p>
+                                            <p className='text-success'>Year of Purchase: {advertise.year}</p>
+                                            <div className='flex items-center'> 
+                                                <h2 className='text-warning'>
+                                                    {advertise?.name} 
+                                                </h2>
+                                               {
+                                                    advertise?.verification === 'verified'  &&  <FaCheckCircle className='ml-5 text-xl text-success'></FaCheckCircle>
+                                               }
+                                            </div>
                                         </div>
                                         <div>
-                                            <button onClick={() => handlerBooked(advertise)} className="btn btn-primary text-base-100 w-full">Book Now</button>
+                                            <button onClick={() => handlerBooked(advertise)} className="btn btn-warning text-neutral w-full">Book Now</button>
                                         </div>
                                     </div>
                                 </div>
