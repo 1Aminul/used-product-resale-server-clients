@@ -1,11 +1,17 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import { parse } from 'postcss';
 import React, { useState, useEffect } from 'react';
 
 const CheckoutForm = ({ payment }) => {
     const [paymentError, setPaymentError] = useState('')
     const [clientSecret, setClientSecret] = useState("");
+    const [success, setSuccess] = useState("");
+    const [transactionId, setTransactionId] = useState("");
     const { price, email, phone } = payment;
 
+
+   
+    console.log(typeof(price));
     const stripe = useStripe();
     const elements = useElements();
 
@@ -16,7 +22,7 @@ const CheckoutForm = ({ payment }) => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ price }),
+            body: JSON.stringify( {price} ),
         })
             .then((res) => res.json())
             .then((data) => setClientSecret(data.clientSecret));
@@ -58,13 +64,16 @@ const CheckoutForm = ({ payment }) => {
                 },
             },
         );
-        
+
         if (confirmError) {
             setPaymentError(confirmError.message)
             return;
         }
         console.log("paymentIntent", paymentIntent)
-
+        if(paymentIntent.status === "succeeded"){
+            setSuccess('your payment successfully complete')
+            setTransactionId(paymentIntent.id)
+        }
     }
     return (
         <>
@@ -92,6 +101,8 @@ const CheckoutForm = ({ payment }) => {
                 </button>
             </form>
             <p className="text-error">{paymentError}</p>
+            <p className='text-success'>{success}</p>
+            <p className='text-success'>{transactionId}</p>
         </>
     );
 };
