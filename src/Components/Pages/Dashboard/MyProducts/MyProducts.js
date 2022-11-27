@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { useQuery } from '@tanstack/react-query'
-
+import {toast} from 'react-hot-toast'
 
 const MyProducts = () => {
     const [productDelete, setProductDelete] = useState(null)
@@ -24,8 +24,40 @@ const MyProducts = () => {
                 }
             })
     }
+
+
+
+    const handlerAdvertise = product =>{
+        // console.log(product);
+        const  advertiseItem = {
+                productName: product.productName,
+                price: product.price,
+                year: product.year,
+                location: product.location,
+                description: product.description,
+                phone: product.phone,
+                condition: product.condition,
+                image: product.image,
+        }
+        console.log(advertiseItem);
+        fetch(`http://localhost:5000/advertiseitem`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(advertiseItem)
+        }).then(res => res.json())
+            .then(data => {
+                if (data.acknowledged) {
+                    refetch()
+                    toast.success('please check your advertise item')
+                }
+            })
+    }
     return (
-        <div className="overflow-x-auto ml-4">
+        <div className=' ml-4'>
+            <h2 className='text-2xl mb-5'>My Products:</h2>
+            <div className="overflow-x-auto">
             <table className="table w-full">
 
                 <thead>
@@ -35,7 +67,7 @@ const MyProducts = () => {
                         <th>Location</th>
                         <th>Mobile No</th>
                         <th>Price</th>
-                        <th>Advertised</th>
+                        <th>Advertise</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -48,7 +80,7 @@ const MyProducts = () => {
                             <td>{product.location}</td>
                             <td>{product.phone}</td>
                             <td>{product.price}</td>
-                            <td><button className='btn btn-info text-base-100'>Adviertised</button></td>
+                            <td><button onClick={()=>handlerAdvertise(product)} className='btn btn-info text-base-100'>Advertise</button></td>
                             <td>
                                 <label htmlFor='delete-modal' onClick={()=> setProductDelete(product)} className='btn btn-error text-white'>Delete</label>
                             </td>
@@ -74,6 +106,7 @@ const MyProducts = () => {
                         </div>
                     </div>
             }
+        </div>
         </div>
     );
 };

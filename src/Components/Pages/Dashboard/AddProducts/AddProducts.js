@@ -1,36 +1,55 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { useForm } from 'react-hook-form';
 import {toast} from 'react-hot-toast'
 import {useNavigate} from 'react-router-dom'
+import { AuthContext } from '../../../Context/AuthProvider';
 const AddProducts = () => {
+    const {user} = useContext(AuthContext)
     const { register, handleSubmit } = useForm();
     const navigate = useNavigate()
 
     const handlerAddProduct = data=>{
-        const product = {
-            productName : data.name,
-            price: data.price,
-            phone: data.phone,
-            location: data.location,
-            year: data.year,
-            condition: data.condition,
-            description: data.description
-        }
+        console.log(data);
+        const formData = new FormData();
+        formData.append('image', data.file[0])
 
-        fetch(`http://localhost:5000/products`, {
+        const imghostkey = process.env.REACT_APP_apiKey
+        
+        fetch(`https://api.imgbb.com/1/upload?key=${imghostkey}`,{
             method: "POST",
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(product)
+            body: formData,
         }).then(res=> res.json())
-        .then(data=> {
-            console.log(data);
-            if(data.acknowledged){
-                toast.success('Product added successfully')
-                navigate('/dashboard/myproducts')
+        .then(datas=> {
+            
+            const product = {
+                email: user?.email,
+                productName : data.name,
+                price: data.price,
+                phone: data.phone,
+                location: data.location,
+                year: data.year,
+                condition: data.condition,
+                description: data.description,
+                image: datas.data.display_url
             }
+    
+            fetch(`http://localhost:5000/products`, {
+                method: "POST",
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(product)
+            }).then(res=> res.json())
+            .then(data=> {
+                console.log(data);
+                if(data.acknowledged){
+                    toast.success('Product added successfully')
+                    navigate('/dashboard/myproducts')
+                }
+            })
         })
+
+        
     }
     return (
         <div className='flex justify-center items-center my-32'>
@@ -81,12 +100,19 @@ const AddProducts = () => {
                             </select>
                         </div>
 
+                        <div>
+                            <label className="label">
+                                <span className="label-text">Upload Photo</span>
+                            </label>
+                            <input {...register("file")} type='file' />
+                        </div>
+
                     </div>
                     <div>
                         <label className="label">
                             <span className="label-text">Description</span>
                         </label>
-                        <textarea {...register("description")} className="textarea textarea-bordered w-full h-24" placeholder="Bio"></textarea>
+                        <textarea {...register("description")} className="textarea textarea-bordered w-full h-24" placeholder="Description"></textarea>
                     </div>
 
                     <input type="submit" value='Submit' className='w-full bg-accent rounded py-3 mt-6 text-white' />
