@@ -16,7 +16,7 @@ const Dashboard = () => {
             <Navbar></Navbar>
             <div className="drawer drawer-mobile">
                 <input id="dashboard-drawer" type="checkbox" className="drawer-toggle" />
-                <div className="drawer-content">
+                <div className="drawer-content ml-4">
                    
                    <Outlet></Outlet>
 
