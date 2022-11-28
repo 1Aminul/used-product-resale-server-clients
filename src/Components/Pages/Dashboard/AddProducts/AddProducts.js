@@ -26,7 +26,7 @@ const AddProducts = () => {
         const formData = new FormData();
         formData.append('image', data.file[0])
 
-        const imghostkey = process.env.REACT_APP_apiKey
+        const imghostkey = process.env.REACT_APP_image_apiKey
 
         fetch(`https://api.imgbb.com/1/upload?key=${imghostkey}`, {
             method: "POST",

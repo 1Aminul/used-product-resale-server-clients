@@ -15,7 +15,7 @@ const AllBuyers = () => {
             return data
         }
     })
-    const usersinfo = users.filter(user => user.option === 'Buyer')
+    const usersinfo = users.filter(user => user?.option !== 'Seller')
 
 
     const handlerDeleteBuyer = id => {
@@ -29,8 +29,6 @@ const AllBuyers = () => {
                 }
             })
     }
-
-
 
 
     return (
