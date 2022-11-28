@@ -1,17 +1,15 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import { parse } from 'postcss';
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 const CheckoutForm = ({ payment }) => {
     const [paymentError, setPaymentError] = useState('')
     const [clientSecret, setClientSecret] = useState("");
     const [success, setSuccess] = useState("");
     const [transactionId, setTransactionId] = useState("");
-    const { price, email, phone } = payment;
-
-
+    const { price, email, phone, name, itemName, } = payment;
    
-    console.log(typeof(price));
+
     const stripe = useStripe();
     const elements = useElements();
 
@@ -69,10 +67,47 @@ const CheckoutForm = ({ payment }) => {
             setPaymentError(confirmError.message)
             return;
         }
-        console.log("paymentIntent", paymentIntent)
+       
         if(paymentIntent.status === "succeeded"){
             setSuccess('your payment successfully complete')
             setTransactionId(paymentIntent.id)
+
+            const paymentinfo = {
+               name, email, itemName, phone, price, 
+               transactionId: paymentIntent.id,
+            }
+
+            fetch(`http://localhost:5000/payments`, {
+                method: "POST",
+                headers: {
+                    "content-type" : "application/json"
+                },
+                body: JSON.stringify(paymentinfo)
+            }).then(res=> res.json())
+            .then(data=> {
+                if(data.acknowledged){
+                   
+                    fetch(`http://localhost:5000/bookings/${payment._id}`,{
+                        method: "PUT",
+                        headers: {
+                            "content-type" : "application/json",
+                            transaction: paymentIntent.id,
+                        },
+                        
+                    }).then(res=> res.json())
+                    .then(data=> {
+                        if(data.modifiedCount > 0){
+                            toast.success(`your transaction is successfully`)
+                            fetch(`http://localhost:5000/advertiseitem/${payment.id}`,{
+                                method: 'DELETE',
+                            }).then(res=> res.json())
+                            .then(data=> {
+                                console.log(data);
+                            })
+                        }
+                    })
+                }
+            })
         }
     }
     return (

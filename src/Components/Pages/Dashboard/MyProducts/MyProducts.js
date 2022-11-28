@@ -10,26 +10,15 @@ const MyProducts = () => {
     const { data: products = [], refetch } = useQuery({
         queryKey: ['products'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/products/${user?.email}`)
+            const res = await fetch(`http://localhost:5000/products`)
             const data = await res.json()
             return data;
         }
     })
 
-    const { data: users = [] } = useQuery({
-        queryKey: ['users'],
-        queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/users`)
-            const data = await res.json()
-            return data;
-        }
-    })
-
-    const User = users.find(emailUser => emailUser.email === user?.email)
-    console.log(User);
 
     const handlerDeleteProduct = id => {
-        console.log(id);
+        
         fetch(`http://localhost:5000/products/${id}`, {
             method: 'DELETE',
         }).then(res => res.json())
@@ -42,20 +31,20 @@ const MyProducts = () => {
 
 
     const handlerAdvertise = product =>{
-        console.log(product._id);
 
         const  advertiseItem = {
                 productName: product.productName,
                 price: product.price,
-                name: User.name,
-                email: User.email,
+                name: product.name,
+                email: product.email,
+                verification: product.verification,
                 year: product.year,
                 location: product.location,
                 phone: product.phone,
                 condition: product.condition,
                 image: product.image,
         }
-        console.log(advertiseItem);
+
         fetch(`http://localhost:5000/advertiseitem`, {
             method: 'POST',
             headers: {
@@ -91,6 +80,7 @@ const MyProducts = () => {
                         <th>SL</th>
                         <th>Name</th>
                         <th>Location</th>
+                        <th>Email</th>
                         <th>Mobile No</th>
                         <th>Price</th>
                         <th>Advertise</th>
@@ -104,6 +94,7 @@ const MyProducts = () => {
                             <th>{i+1}</th>
                             <td>{product.productName}</td>
                             <td>{product.location}</td>
+                            <td>{product.email}</td>
                             <td>{product.phone}</td>
                             <td>{product.price}</td>
                             <td>
@@ -111,11 +102,24 @@ const MyProducts = () => {
                                     product.advertise === 'advertised' ? 
                                     <button className='btn' disabled>Advertise</button>
                                     :
-                                    <button onClick={()=>handlerAdvertise(product)} className='btn btn-info text-base-100'>Advertise</button>
+                                   <>
+                                    {
+                                      user?.email === product.email ?
+                                      <button onClick={()=>handlerAdvertise(product)} className='btn btn-info text-base-100'>Advertise</button>
+                                      :
+                                      <button className='btn text-base-100'>Not Advertise</button>
+                                    }
+                                   </>
+                                   
                                 }
                             </td>
                             <td>
-                                <label htmlFor='delete-modal' onClick={()=> setProductDelete(product)} className='btn btn-error text-white'>Delete</label>
+                               {
+                                    user?.email === product.email ?
+                                    <label htmlFor='delete-modal' onClick={()=> setProductDelete(product)} className='btn btn-error text-white'>Delete</label>
+                                    :
+                                    <button className='btn text-base-100'>Not Delete</button>
+                               }
                             </td>
                         </tr>
                         )

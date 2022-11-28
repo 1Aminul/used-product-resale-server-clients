@@ -22,10 +22,17 @@ const AdvertiseItem = () => {
             return data;
         }
     })
+    const { data: users = [] } = useQuery({
+        queryKey: ['users'],
+        queryFn: async () => {
+            const res = await fetch(`http://localhost:5000/users`)
+            const data = await res.json()
+            return data;
+        }
+    })
+    const userOption = users.find(userinfo=> userinfo?.email === user?.email )
+    console.log(userOption);
    
-
-    
-
     const handlerBooked = (advertise) => {
 
         const booking = {
@@ -35,9 +42,9 @@ const AdvertiseItem = () => {
             price: advertise.price,
             phone: advertise.phone,
             location: advertise.location,
-            image: advertise.image
+            image: advertise.image,
+            id: advertise._id
         }
-        console.log(booking);
 
         fetch("http://localhost:5000/bookings", {
             method: "POST",
@@ -58,7 +65,7 @@ const AdvertiseItem = () => {
     return (
         <div className='my-20'>
             {
-                products.length > 0 &&
+                advertiseitem.length > 0 &&
                 <>
                     <h2 className="text-3xl font-bold mb-5 text-center">Advertise Item</h2>
                     <div className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
@@ -86,7 +93,12 @@ const AdvertiseItem = () => {
                                             </div>
                                         </div>
                                         <div>
-                                            <button onClick={() => handlerBooked(advertise)} className="btn btn-warning text-neutral w-full">Book Now</button>
+                                            {
+                                                userOption?.option === 'Buyer' ?
+                                                <button onClick={() => handlerBooked(advertise)} className="btn btn-warning text-neutral w-full">Book Now</button>
+                                                :
+                                                <button className='btn btn-warning text-neutral w-full'>You are not buyer</button>
+                                            }
                                         </div>
                                     </div>
                                 </div>

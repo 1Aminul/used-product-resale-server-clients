@@ -13,7 +13,7 @@ const MyBookings = () => {
             return data;
         }
     })
-
+    
     
     return (
         
@@ -61,7 +61,11 @@ const MyBookings = () => {
                             <td>{book.phone}</td>
                             <td>{book.price}</td>
                             <th>
-                                <Link to = {`/dashboard/payments/${book._id}`}><button  className="btn btn-primary text-base-100">Pay</button></Link>
+                                {
+                                    book?.transactionId ? 
+                                    <h2 className='text-success'>Paid</h2>:
+                                    <Link to = {`/dashboard/payments/${book._id}`}><button  className="btn btn-sm btn-primary text-base-100">pay</button></Link>
+                                }
                             </th>
                         </tr>
                             )

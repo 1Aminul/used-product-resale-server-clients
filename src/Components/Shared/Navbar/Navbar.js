@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../../images/logo.svg'
 import { AuthContext } from '../../Context/AuthProvider';
+import {FaUser} from 'react-icons/fa'
 
 const Navbar = () => {
     const { user, LogOut } = useContext(AuthContext)
@@ -16,6 +17,7 @@ const Navbar = () => {
             user?.email ? <>
                 <li><Link to='/dashboard'>Dashborad</Link></li>
                 <li><Link to='/login'><button onClick={handleLogout}>SignOut</button></Link></li>
+                <li title={user?.email}><Link to='/login'><button><FaUser></FaUser></button></Link></li>
             </>
                 : <li><Link to='/login'>Login</Link></li>
         }
