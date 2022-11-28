@@ -1,37 +1,45 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../Context/AuthProvider';
 import toast from 'react-hot-toast';
 import { FaCheckCircle } from 'react-icons/fa'
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const AdvertiseItem = () => {
     const { user } = useContext(AuthContext)
-    const { data: products = [] } = useQuery({
-        queryKey: ['products'],
-        queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/products`)
-            const data = await res.json()
-            return data;
-        }
-    })
+    const [users, setUsers] = useState(null)
+    useEffect(()=>{
+        axios.get(`https://used-products-resale-server-1aminul.vercel.app/users`)
+        .then(res=>{
+            setUsers(res.data)
+        })
+    },[])
+
+    console.log(users);
+
     const { data: advertiseitem = [] } = useQuery({
         queryKey: ['advertiseitem'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/advertiseitem`)
+            const res = await fetch(`https://used-products-resale-server-1aminul.vercel.app/advertiseitem`)
             const data = await res.json()
             return data;
         }
     })
-    const { data: users = [] } = useQuery({
-        queryKey: ['users'],
-        queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/users`)
-            const data = await res.json()
-            return data;
+    // const { data: users = [] } = useQuery({
+    //     queryKey: ['users'],
+    //     queryFn: async () => {
+    //         const res = await fetch(`https://used-products-resale-server-1aminul.vercel.app/users`)
+    //         const data = await res.json()
+    //         return data;
+    //     }
+    // })
+        if(!users){
+            return null
         }
-    })
-    const userOption = users.find(userinfo=> userinfo?.email === user?.email )
-    console.log(userOption);
+        const userOption = users.find(userinfo=> userinfo?.email === user?.email )
+        console.log(userOption);
+
    
     const handlerBooked = (advertise) => {
 
@@ -46,7 +54,7 @@ const AdvertiseItem = () => {
             id: advertise._id
         }
 
-        fetch("http://localhost:5000/bookings", {
+        fetch("https://used-products-resale-server-1aminul.vercel.app/bookings", {
             method: "POST",
             headers: {
                 'content-type': 'application/json'
@@ -90,14 +98,16 @@ const AdvertiseItem = () => {
                                                {
                                                     advertise?.verification === 'verified'  &&  <FaCheckCircle className='ml-5 text-xl text-success'></FaCheckCircle>
                                                }
+
                                             </div>
+                                            <p className='text-success'>Posted Date: {advertise?.time}</p>
                                         </div>
                                         <div>
                                             {
-                                                userOption?.option === 'Buyer' ?
-                                                <button onClick={() => handlerBooked(advertise)} className="btn btn-warning text-neutral w-full">Book Now</button>
-                                                :
-                                                <button className='btn btn-warning text-neutral w-full'>You are not buyer</button>
+                                                userOption?.option === 'Seller' || userOption?.option === 'Admin' ?
+                                                <button className='btn btn-warning text-neutral w-full'>You are not buyer</button>:
+                                                <Link to = '/dashboard'><button onClick={() => handlerBooked(advertise)} className="btn btn-warning text-neutral w-full">Book Now</button></Link> 
+                                               
                                             }
                                         </div>
                                     </div>

@@ -4,7 +4,9 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../../Context/AuthProvider';
+import { useTitle } from '../../../hooks/useTitle';
 const AddProducts = () => {
+    useTitle("Add Products")
     const { user } = useContext(AuthContext)
     const { register, handleSubmit } = useForm();
     const navigate = useNavigate()
@@ -13,7 +15,7 @@ const AddProducts = () => {
     const { data: users = [] } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/users`)
+            const res = await fetch(`https://used-products-resale-server-1aminul.vercel.app/users`)
             const data = await res.json()
             return data;
         }
@@ -48,7 +50,7 @@ const AddProducts = () => {
                     image: datas.data.display_url
                 }
 
-                fetch(`http://localhost:5000/products`, {
+                fetch(`https://used-products-resale-server-1aminul.vercel.app/products`, {
                     method: "POST",
                     headers: {
                         'content-type': 'application/json'

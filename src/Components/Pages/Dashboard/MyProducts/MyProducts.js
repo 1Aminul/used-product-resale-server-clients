@@ -2,15 +2,17 @@ import React, {useContext, useState} from 'react';
 import { useQuery } from '@tanstack/react-query'
 import {toast} from 'react-hot-toast'
 import { AuthContext } from '../../../Context/AuthProvider';
+import { useTitle } from '../../../hooks/useTitle';
 
 
 const MyProducts = () => {
+    useTitle("My products")
     const {user} = useContext(AuthContext)
     const [productDelete, setProductDelete] = useState(null)
     const { data: products = [], refetch } = useQuery({
         queryKey: ['products'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/products`)
+            const res = await fetch(`https://used-products-resale-server-1aminul.vercel.app/products`)
             const data = await res.json()
             return data;
         }
@@ -19,7 +21,7 @@ const MyProducts = () => {
 
     const handlerDeleteProduct = id => {
         
-        fetch(`http://localhost:5000/products/${id}`, {
+        fetch(`https://used-products-resale-server-1aminul.vercel.app/products/${id}`, {
             method: 'DELETE',
         }).then(res => res.json())
             .then(data => {
@@ -29,6 +31,16 @@ const MyProducts = () => {
             })
     }
 
+    const now = new Date();
+    const date = now.getDate()
+    
+    const nameOfMonthUS = new Intl.DateTimeFormat('en-US', {month: 'short'}).format(
+        new Date(),
+      );
+      
+    let time = `${date} ${nameOfMonthUS}`
+
+    console.log(time);
 
     const handlerAdvertise = product =>{
 
@@ -43,9 +55,10 @@ const MyProducts = () => {
                 phone: product.phone,
                 condition: product.condition,
                 image: product.image,
+                time
         }
 
-        fetch(`http://localhost:5000/advertiseitem`, {
+        fetch(`https://used-products-resale-server-1aminul.vercel.app/advertiseitem`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -55,7 +68,7 @@ const MyProducts = () => {
             .then(data => {
                 if (data.acknowledged) {
                    
-                    fetch(`http://localhost:5000/products/${product._id}`,{
+                    fetch(`https://used-products-resale-server-1aminul.vercel.app/products/${product._id}`,{
                         method: "PUT",
                         headers: {
                             "content-type": "application/json"

@@ -3,16 +3,18 @@ import { useQuery } from '@tanstack/react-query'
 import useAdmin from '../../../hooks/useAdmin';
 import { AuthContext } from '../../../Context/AuthProvider';
 import {FaCheckCircle} from 'react-icons/fa'
+import { useTitle } from '../../../hooks/useTitle';
 
 
 const AllSallers = () => {
+    useTitle("All Sallers")
     const { user } = useContext(AuthContext)
     const [isAdmin] = useAdmin(user?.email)
     const [sallerDelete, setSallerDelete] = useState(null)
     const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/users`);
+            const res = await fetch(`https://used-products-resale-server-1aminul.vercel.app/users`);
             const data = await res.json()
             return data
         }
@@ -23,7 +25,7 @@ const AllSallers = () => {
 
     const handlerDeleteSaller = id => {
         console.log(id);
-        fetch(`http://localhost:5000/users/${id}`, {
+        fetch(`https://used-products-resale-server-1aminul.vercel.app/users/${id}`, {
             method: 'DELETE',
         }).then(res => res.json())
             .then(data => {
@@ -35,7 +37,7 @@ const AllSallers = () => {
     }
 
     const handlerVerifySaller = id => {
-        fetch(`http://localhost:5000/users/${id}`, {
+        fetch(`https://used-products-resale-server-1aminul.vercel.app/users/${id}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'
@@ -51,6 +53,7 @@ const AllSallers = () => {
 
     return (
         <div className="overflow-x-auto ml-4">
+            <h2 className="text-2xl font-bold mb-3">All Sallers:</h2>
             <table className="table w-full">
 
                 <thead>

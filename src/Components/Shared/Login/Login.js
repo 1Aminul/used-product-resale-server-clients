@@ -2,8 +2,11 @@ import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Context/AuthProvider';
+import { useTitle } from '../../hooks/useTitle';
 
 const Login = () => {
+    useTitle('login')
+
     const { register, handleSubmit } = useForm();
     const { LogIn, googleLogin } = useContext(AuthContext)
     const navigate = useNavigate()
@@ -34,7 +37,7 @@ const Login = () => {
                         name: user?.displayName,
                         email: user?.email
                     }
-                    fetch(`http://localhost:5000/users`, {
+                    fetch(`https://used-products-resale-server-1aminul.vercel.app/users`, {
                         method: "POST",
                         headers: {
                             'content-type': 'application/json'

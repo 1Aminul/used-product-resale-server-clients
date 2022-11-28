@@ -1,10 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useLoaderData } from 'react-router-dom'
 import BookingModal from '../../../Shared/BookingModal/BookingModal';
+import axios from 'axios';
+import { AuthContext } from '../../../Context/AuthProvider';
+import { useTitle } from '../../../hooks/useTitle';
+
+
+
 const CategoryItem = () => {
+
+    useTitle("category item")
+    const { user } = useContext(AuthContext)
     const [booking, setBooking] = useState()
+    const [users, setUsers] = useState(null)
     const data = useLoaderData()
     const { item } = data
+    useEffect(() => {
+        axios.get(`https://used-products-resale-server-1aminul.vercel.app/users`)
+            .then(res => {
+                setUsers(res.data)
+            })
+    }, [])
+
+    if (!users) {
+        return null
+    }
+    const userOption = users.find(userinfo => userinfo?.email === user?.email)
+
+
+
+
+    const handlerbooking = id => {
+        if (id) {
+            setBooking(id)
+        }
+
+
+    }
+
     return (
         <div className='w-4/5 mx-auto'>
             <div className='grid sm:grid-cols-1 lg:grid-cols-2 gap-3 my-20'>
@@ -24,7 +57,7 @@ const CategoryItem = () => {
                                         <p className="text-success">Condition: {category.description.Condition}</p>
                                     </div>
                                     <div>
-                                       
+
                                         <p className="text-success">Year of use: {category.description.used}</p>
                                         <p className="text-error">Original Price: {category.description.price}</p>
                                     </div>
@@ -36,7 +69,15 @@ const CategoryItem = () => {
                                         <p className="text-success">Location: {category.location}</p>
                                     </div>
                                 </div>
-                                <label htmlFor="used-product-modal" onClick={() => setBooking(category.id)} className="btn btn-warning text-neutral w-full">Book Now</label>
+                                <div>
+                                    {
+                                        userOption?.option === 'Seller' || userOption?.option === 'Admin' ?
+                                            <button className='btn btn-warning text-neutral w-full'>You are not buyer</button> :
+                                            <label htmlFor="used-product-modal" onClick={() => handlerbooking(category.id)} className="btn btn-warning text-neutral w-full">Book Now</label>
+
+                                    }
+                                </div>
+
                             </div>
                             {
                                 booking && <BookingModal

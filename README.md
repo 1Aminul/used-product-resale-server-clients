@@ -1,3 +1,28 @@
+1.First of all i am create a usedproduct webpage by react app and there give a navbar, banner , title, favicon,
+hero seciton in advertise item (conditional) and category item and footer added in the home page.\
+
+2.In the navbar i will create a link option home, blog, dashboard(privateroute), login, signout and user icon(here is title, you hover the user you will see active user) and this is responsive for all mobile, tab, computer.\
+
+3.if you signup your account (as a buyer) you will see myorders route in the dashboard, and you will book advertise item and category item.if you click the book now button you redirect in the myorder page route and you will see just yours orders.you cannot see other orders and if you click pay button you go to payment route and pay by stripe.if payment is succesfull you see your orders (paid against pay button). and item is deleted in the advertise item section.\
+
+4.if you signup your account (as a seller) you will see add products and my orders and my products in dashboard.if you verify by the admin you add the product and not verify you can not add the product. if you verify by the admin you will add the the products and redirect the my products route and there a advertise button and delete button.if you want advertise and delete just your products. other products you will see but can not advertise and delete.you click the advertise button the product will show the home page in the advertise section. and advertise button disabled.as a seller you can not buy any product,you will see the (you are not buyer button).\
+
+5.a admin user see all sellers and all buyers and a admin user can delete a buyer and seller.again a admin verify the seller.a admin cannot buy any product.\
+
+
+6.I apply react Query and axios.\
+
+7.overall i also try my best design.\
+8.my live site link: https://used-products-resale-client.web.app/  .\
+
+
+
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

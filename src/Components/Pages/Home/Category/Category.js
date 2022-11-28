@@ -8,7 +8,7 @@ const Category = () => {
     const { data: categories = [] } = useQuery({
         queryKey: ['categories'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/category`);
+            const res = await fetch(`https://used-products-resale-server-1aminul.vercel.app/category`);
             const data = await res.json();
             return data;
         }
@@ -20,10 +20,10 @@ const Category = () => {
     return (
         <div>
             <h1 className="text-4xl font-extrabold text-center">Here is {categories.length} category</h1>
-            <div  className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 mt-5 '>
+            <div  className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-5 '>
             {
                 categories.map(category =>
-                    <div onClick={()=>showCategoryItem(category._id) }  className="card w-96 bg-success text-base-100 shadow-xl transition duration-350 hover:bg-gradient-to-r from-primary to-info ">
+                    <div key={category._id} onClick={()=>showCategoryItem(category._id) }  className="card w-96 bg-success text-base-100 shadow-xl transition duration-350 hover:bg-gradient-to-r from-primary to-info ">
                         <div className="card-body">
                             <div className='flex items-center justify-between'>
                                 <h2 className="card-title  text-3xl font-bold">{category.name} </h2>

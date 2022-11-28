@@ -2,13 +2,15 @@ import React, {useContext} from 'react';
 import { useQuery } from '@tanstack/react-query'
 import { AuthContext } from '../../../Context/AuthProvider';
 import { Link } from 'react-router-dom';
+import { useTitle } from '../../../hooks/useTitle';
 
 const MyBookings = () => {
+    useTitle("My Orders")
     const {user} = useContext(AuthContext)
     const { data: bookings = [] } = useQuery({
         queryKey: ['bookings', user?.email],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/bookings?email=${user?.email}`);
+            const res = await fetch(`https://used-products-resale-server-1aminul.vercel.app/bookings?email=${user?.email}`);
             const data = await res.json();
             return data;
         }
@@ -19,7 +21,8 @@ const MyBookings = () => {
         
            
             <div className="overflow-x-auto w-full ml-4">
-                <table className="table w-full">
+                <h2 className='text-2xl font-bold mb-3'>My Orders:</h2>
+                <table className="table w-full ">
 
                     <thead>
                         <tr>

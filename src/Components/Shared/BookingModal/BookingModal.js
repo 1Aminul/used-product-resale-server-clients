@@ -1,15 +1,19 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext} from 'react';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Context/AuthProvider';
+
 
 const BookingModal = ({items, booking, setBooking}) => {
     
     const {user}= useContext(AuthContext)
+    const navigate = useNavigate()
+    
     let booked = {};
     if(booking){
-        booked = items.find(item=> item.id === booking)
-       
+         booked = items.find(item=> item.id === booking)
     }
+
     const bookingModalForm = (e)=>{
         e.preventDefault();
         const form = e.target;
@@ -30,7 +34,7 @@ const BookingModal = ({items, booking, setBooking}) => {
             image: booked.image1,
         }
         console.log(booking);
-        fetch("http://localhost:5000/bookings",{
+        fetch("https://used-products-resale-server-1aminul.vercel.app/bookings",{
             method: "POST",
             headers: {
                 'content-type': 'application/json'
@@ -43,6 +47,7 @@ const BookingModal = ({items, booking, setBooking}) => {
             if(data.acknowledged){
                 toast.success('product is booked')
                 setBooking(null)
+                navigate('/dashboard')
             }
         })
 

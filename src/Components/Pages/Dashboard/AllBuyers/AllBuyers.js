@@ -2,15 +2,17 @@ import React, { useContext, useState } from 'react';
 import { useQuery } from '@tanstack/react-query'
 import useAdmin from '../../../hooks/useAdmin';
 import { AuthContext } from '../../../Context/AuthProvider';
+import { useTitle } from '../../../hooks/useTitle';
 
 const AllBuyers = () => {
+    useTitle("All buyers")
     const [buyerDelete, setBuyerDelete] = useState(null)
     const { user } = useContext(AuthContext)
     const [isAdmin] = useAdmin(user?.email)
     const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/users`);
+            const res = await fetch(`https://used-products-resale-server-1aminul.vercel.app/users`);
             const data = await res.json()
             return data
         }
@@ -20,7 +22,7 @@ const AllBuyers = () => {
 
     const handlerDeleteBuyer = id => {
         console.log(id);
-        fetch(`http://localhost:5000/users/${id}`, {
+        fetch(`https://used-products-resale-server-1aminul.vercel.app/users/${id}`, {
             method: 'DELETE',
         }).then(res => res.json())
             .then(data => {
@@ -33,6 +35,7 @@ const AllBuyers = () => {
 
     return (
         <div className="overflow-x-auto ml-4">
+            <h2 className="text-2xl font-bold mb-3">All Sallers:</h2>
             <table className="table w-full">
 
                 <thead>

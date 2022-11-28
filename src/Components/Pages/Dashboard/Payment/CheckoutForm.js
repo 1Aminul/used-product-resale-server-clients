@@ -1,26 +1,28 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { useTitle } from '../../../hooks/useTitle';
 
 const CheckoutForm = ({ payment }) => {
+    useTitle('payment')
     const [paymentError, setPaymentError] = useState('')
     const [clientSecret, setClientSecret] = useState("");
     const [success, setSuccess] = useState("");
     const [transactionId, setTransactionId] = useState("");
     const { price, email, phone, name, itemName, } = payment;
-   
+
 
     const stripe = useStripe();
     const elements = useElements();
 
     useEffect(() => {
         // Create PaymentIntent as soon as the page loads
-        fetch("http://localhost:5000/create-payment-intent", {
+        fetch("https://used-products-resale-server-1aminul.vercel.app/create-payment-intent", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify( {price} ),
+            body: JSON.stringify({ price }),
         })
             .then((res) => res.json())
             .then((data) => setClientSecret(data.clientSecret));
@@ -67,47 +69,52 @@ const CheckoutForm = ({ payment }) => {
             setPaymentError(confirmError.message)
             return;
         }
-       
-        if(paymentIntent.status === "succeeded"){
+
+        if (paymentIntent.status === "succeeded") {
             setSuccess('your payment successfully complete')
             setTransactionId(paymentIntent.id)
 
             const paymentinfo = {
-               name, email, itemName, phone, price, 
-               transactionId: paymentIntent.id,
+                name, email, itemName, phone, price,
+                transactionId: paymentIntent.id,
             }
 
-            fetch(`http://localhost:5000/payments`, {
+            fetch(`https://used-products-resale-server-1aminul.vercel.app/payments`, {
                 method: "POST",
                 headers: {
-                    "content-type" : "application/json"
+                    "content-type": "application/json"
                 },
                 body: JSON.stringify(paymentinfo)
-            }).then(res=> res.json())
-            .then(data=> {
-                if(data.acknowledged){
-                   
-                    fetch(`http://localhost:5000/bookings/${payment._id}`,{
-                        method: "PUT",
-                        headers: {
-                            "content-type" : "application/json",
-                            transaction: paymentIntent.id,
-                        },
-                        
-                    }).then(res=> res.json())
-                    .then(data=> {
-                        if(data.modifiedCount > 0){
-                            toast.success(`your transaction is successfully`)
-                            fetch(`http://localhost:5000/advertiseitem/${payment.id}`,{
-                                method: 'DELETE',
-                            }).then(res=> res.json())
-                            .then(data=> {
-                                console.log(data);
+            }).then(res => res.json())
+                .then(data => {
+                    if (data.acknowledged) {
+
+                        fetch(`https://used-products-resale-server-1aminul.vercel.app/bookings/${payment?._id}`, {
+                            method: "PUT",
+                            headers: {
+                                "content-type": "application/json",
+                                transaction: paymentIntent.id,
+                            },
+
+                        }).then(res => res.json())
+                            .then(data => {
+                                if (data.modifiedCount > 0) {
+                                    toast.success(`your transaction is successfully`)
+                                    if (payment.id) {
+                                        fetch(`https://used-products-resale-server-1aminul.vercel.app/advertiseitem/${payment?.id}`, {
+                                            method: 'DELETE',
+                                        }).then(res => res.json())
+                                            .then(data => {
+                                                console.log(data);
+                                            })
+                                    }
+                                    else {
+                                        console.log(data)
+                                    }
+                                }
                             })
-                        }
-                    })
-                }
-            })
+                    }
+                })
         }
     }
     return (

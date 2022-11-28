@@ -10,21 +10,21 @@ const Navbar = () => {
         LogOut()
     }
     const menu = <>
-        <li><Link to='/'>Home</Link></li>
-        <li><Link to='/blog'>Blog</Link></li>
+        <li className= 'text-xl font-bold lg:text-base-100'><Link to='/'>Home</Link></li>
+        <li className= 'text-xl font-bold lg:text-base-100'><Link to='/blog'>Blog</Link></li>
 
         {
             user?.email ? <>
-                <li><Link to='/dashboard'>Dashborad</Link></li>
-                <li><Link to='/login'><button onClick={handleLogout}>SignOut</button></Link></li>
-                <li title={user?.email}><Link to='/login'><button><FaUser></FaUser></button></Link></li>
+                <li className = 'text-xl font-bold lg:text-base-100'><Link to='/dashboard'>Dashborad</Link></li>
+                <li className = 'text-xl font-bold lg:text-base-100'><Link to='/login'><button onClick={handleLogout}>SignOut</button></Link></li>
+                <li className='lg:text-base-100 text-xl' title={user?.email}><Link to='/login'><button><FaUser></FaUser></button></Link></li>
             </>
-                : <li><Link to='/login'>Login</Link></li>
+                : <li  className = 'text-xl  font-bold lg:text-base-100'><Link to='/login'>Login</Link></li>
         }
 
     </>
     return (
-        <div className="navbar bg-base-100">
+        <div className="navbar bg-secondary mt-1 rounded-lg">
             <div className="navbar-start">
                 <div className="dropdown">
                     <label tabIndex={1} className="btn btn-ghost lg:hidden">
@@ -35,7 +35,7 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <Link className="btn btn-ghost normal-case text-xl">
-                    <span className='text-4xl font-extrabold'>Used</span>
+                    <span className='text-4xl lg:text-base-100 font-extrabold'>Used</span>
                     <img src={logo} alt="this is logo" className='w-32' />
                 </Link>
             </div>

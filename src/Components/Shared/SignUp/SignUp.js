@@ -3,8 +3,10 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../Context/AuthProvider';
+import { useTitle } from '../../hooks/useTitle';
 
 const SignUP = () => {
+    useTitle("signUP")
     const { register, handleSubmit } = useForm();
     const {createUser, ProfileUpdate} = useContext(AuthContext)
     const hanlderSignUp = data => {
@@ -23,7 +25,7 @@ const SignUP = () => {
 
     const users = (name, email, option)=>{
         const user = {name, email, option}
-        fetch(`http://localhost:5000/users`,{
+        fetch(`https://used-products-resale-server-1aminul.vercel.app/users`,{
             method: "POST",
             headers: {
                 'content-type': 'application/json'

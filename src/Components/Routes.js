@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import Errorpage from "./Errorpage";
 import Main from "./Layout/Main";
 import Blog from "./Pages/Blog/Blog";
 import AddProducts from "./Pages/Dashboard/AddProducts/AddProducts";
@@ -38,7 +39,7 @@ export const router = createBrowserRouter([
         {
             path: '/category/:id',
             element: <PrivateRoutes><CategoryItem></CategoryItem></PrivateRoutes>,
-            loader: ({params})=> fetch(`http://localhost:5000/category/${params.id}`)
+            loader: ({params})=> fetch(`https://used-products-resale-server-1aminul.vercel.app/category/${params.id}`)
         },
     ]},
     {
@@ -61,8 +62,13 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/payments/:id', 
                 element: <Payment></Payment>,
-                loader: ({params})=> fetch(`http://localhost:5000/bookings/${params.id}`)
+                loader: ({params})=> fetch(`https://used-products-resale-server-1aminul.vercel.app/bookings/${params.id}`)
             },
         ]
+    },
+    {
+        path: '*',
+        element: <Errorpage></Errorpage>
     }
+
 ])
