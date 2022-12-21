@@ -1,12 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Context/AuthProvider';
 import { useTitle } from '../../hooks/useTitle';
+import { FaGoogle } from "react-icons/fa";
 
 const Login = () => {
     useTitle('login')
-
+    const [error, setError] = useState('')
     const { register, handleSubmit } = useForm();
     const { LogIn, googleLogin } = useContext(AuthContext)
     const navigate = useNavigate()
@@ -23,7 +24,7 @@ const Login = () => {
                 const user = res.user;
                 console.log(user);
                 navigate(from, { replace: true });
-            }).catch(err => console.error(err))
+            }).catch(err => setError(err.message))
 
     }
 
@@ -68,9 +69,12 @@ const Login = () => {
                     <input type='password' {...register("password")} className='input input-bordered w-full' />
                     <input type="submit" value='Login' className='w-full bg-accent rounded py-3 mt-6 text-white' />
                 </form>
+                <label className="label">
+                        <span className="label-text text-error">{error}</span>
+                    </label>
                 <p className='my-6 text-center'>Have no account? <Link className='text-secondary' to='/signup'>Create New account</Link> </p>
                 <div className="divider">OR</div>
-                <button onClick={handlerGoogleLogin} className='btn btn-outline w-full'>Continue With Google</button>
+                <button onClick={handlerGoogleLogin} className='btn btn-outline w-full'><FaGoogle className='mr-3 text-xl text-success'/> Continue With Google</button>
             </div>
         </div>
     );

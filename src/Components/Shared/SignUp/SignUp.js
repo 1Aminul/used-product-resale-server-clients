@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { useTitle } from '../../hooks/useTitle';
 
 const SignUP = () => {
     useTitle("signUP")
+    const [error, setError] = useState('')
     const { register, handleSubmit } = useForm();
     const {createUser, ProfileUpdate} = useContext(AuthContext)
     const hanlderSignUp = data => {
@@ -20,7 +21,7 @@ const SignUP = () => {
                 toast.success('Profile is updated')
                 users(data.name, data.email, data.option)
             }).catch(err=> console.error(err))
-        }).catch(err=> console.error(err))
+        }).catch(err=> setError(err.message))
     }
 
     const users = (name, email, option)=>{
@@ -62,6 +63,9 @@ const SignUP = () => {
                     </select>
                     <input type="submit" value='Sign Up' className='w-full bg-accent rounded py-3 mt-6 text-white' />
                 </form>
+                <label className="label">
+                        <span className="label-text text-error">{error}</span>
+                    </label>
                 <p className='my-6 text-center'>Already have an account? <Link className='text-secondary' to='/login'>Please Login</Link> </p>
                
             </div>
