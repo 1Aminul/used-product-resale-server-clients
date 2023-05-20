@@ -16,6 +16,8 @@ import PrivateRoutes from "./PrivateRoute/PrivateRoute/PrivateRoutes";
 import SallerRoute from "./PrivateRoute/SallerRoute/SallerRoute";
 import Login from "./Shared/Login/Login";
 import SignUP from "./Shared/SignUp/SignUp";
+import About from "./Pages/About/About";
+import Contact from "./Pages/Contact/Contact";
 
 
 export const router = createBrowserRouter([
@@ -27,6 +29,14 @@ export const router = createBrowserRouter([
         {
             path: '/login',
             element: <Login></Login>,
+        },
+        {
+            path: '/about',
+            element:<About/>,
+        },
+        {
+            path: '/contact',
+            element: <Contact/>,
         },
         {
             path: '/signup',
